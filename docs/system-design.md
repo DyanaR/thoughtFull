@@ -4,7 +4,7 @@
 
 - Frontend: React (component-based UI, easy state management)
 - Backend: Spring Boot (strong REST support, scalable)
-- Database: MySQL (relational, structured data)
+- Database: PostgreSQL (relational, structured data)
 - Authentication: Auth0 (secure, offloads auth complexity)
 
 ---
@@ -19,7 +19,7 @@ Authentication is handled externally using Auth0 to avoid storing credentials an
 
 Auth0 is responsible for:
 
-- User sign-up and login
+- User sign-up and logins
 - Credential storage (email, password)
 - Identity verification
 - Issuing JWT tokens
@@ -108,7 +108,7 @@ Service Layer (Business Logic)
 ↓
 Repository Layer (JPA)
 ↓
-Database (MySQL)
+Database (PostgreSQL)
 
 ---
 
