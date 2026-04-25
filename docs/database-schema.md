@@ -83,7 +83,8 @@ Stores available moods that can be associated with journal entries.
 - This table allows moods to be reused across entries.
 - Enables future analytics and filtering.
 
-**Primary Key:\***
+**Primary Key:**
+
 (entry_id, mood_id)
 
 **Purpose:**
@@ -95,8 +96,11 @@ Stores available moods that can be associated with journal entries.
 ## Relationships Diagram (Conceptual)
 
 users
+
 └── entries
+
 └── entry_moods
+
 └── moods
 
 ---
