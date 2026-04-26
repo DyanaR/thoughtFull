@@ -9,7 +9,7 @@ Relationships:
 - A user can have many journal entries.
 - A journal entry can have multiple moods.
 - A mood can belong to multiple journal entries.
-- A join table is used to support the many-to-many - relationship between entries and moods.
+- A join table is used to support the many-to-many relationship between entries and moods.
 
 ---
 
@@ -70,38 +70,36 @@ Stores available moods that can be associated with journal entries.
 
 ---
 
-Stores available moods that can be associated with journal entries.
+### entry_moods
 
-| Column Name | Type         | Constraints      | Description                        |
-| ----------- | ------------ | ---------------- | ---------------------------------- |
-| id          | UUID         | PRIMARY KEY      | Mood identifier                    |
-| name        | VARCHAR(100) | UNIQUE, NOT NULL | Mood name (e.g., calm, happy)      |
-| color       | VARCHAR(20)  | NULL             | Optional color code for UI display |
+Join table connecting journal entries and moods.
 
-**Notes:**
-
-- This table allows moods to be reused across entries.
-- Enables future analytics and filtering.
+| Column Name | Type | Constraints | Description |
+| ----------- | ---- | ----------- | ----------- |
+| entry_id | UUID | FOREIGN KEY → entries(id) ON DELETE CASCADE, NOT NULL |
+| mood_id  | UUID | FOREIGN KEY → moods(id) ON DELETE CASCADE, NOT NULL |
 
 **Primary Key:**
 
 (entry_id, mood_id)
 
+
 **Purpose:**
 
 - Supports many-to-many relationship between entries and moods.
+- Allows one entry to have multiple moods.
+- Allows one mood to be reused across multiple entries.
 
 ---
 
 ## Relationships Diagram (Conceptual)
 
+```text
 users
-
 └── entries
-
-└── entry_moods
-
-└── moods
+    └── entry_moods
+        └── moods
+```
 
 ---
 
