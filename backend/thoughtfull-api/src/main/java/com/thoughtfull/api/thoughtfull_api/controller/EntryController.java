@@ -4,6 +4,7 @@ import com.thoughtfull.api.thoughtfull_api.dto.CreateEntryRequest;
 import com.thoughtfull.api.thoughtfull_api.dto.EntryResponse;
 import com.thoughtfull.api.thoughtfull_api.dto.UpdateEntryRequest;
 import com.thoughtfull.api.thoughtfull_api.service.EntryService;
+import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class EntryController {
     @PostMapping
     public EntryResponse createEntry(
             @AuthenticationPrincipal Jwt jwt, // current user token
-            @RequestBody CreateEntryRequest request // request body from frontend
+            @Valid @RequestBody CreateEntryRequest request // request body from frontend
     ) {
         return entryService.createEntry(jwt, request);
     }

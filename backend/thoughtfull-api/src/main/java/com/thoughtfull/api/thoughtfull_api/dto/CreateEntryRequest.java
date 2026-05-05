@@ -1,5 +1,8 @@
 package com.thoughtfull.api.thoughtfull_api.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.util.Set;
 import java.util.UUID;
 
@@ -7,7 +10,11 @@ import java.util.UUID;
 public class CreateEntryRequest {
 
     private String title;
+
+    @NotBlank(message = "Content is required")
     private String content;
+
+    @Size(max = 3, message = "Maximum 3 moods allowed")
     private Set<UUID> moodIds;
 
     public String getTitle() { return title; }

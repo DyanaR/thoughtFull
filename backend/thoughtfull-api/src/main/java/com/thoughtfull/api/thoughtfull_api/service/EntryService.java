@@ -95,9 +95,17 @@ public class EntryService {
         if (request.getTitle() != null){
             entry.setTitle(request.getTitle());
         }
-        if (request.getContent() != null){
+
+        if (request.getContent() != null) {
+            if (request.getContent().isBlank()) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        "Content cannot be blank"
+                );
+            }
             entry.setContent(request.getContent());
         }
+
         if (request.getMoodIds() != null){
             Set<Mood> moods = getMoodsByIds(request.getMoodIds());
             entry.setMoods(moods);
@@ -169,8 +177,6 @@ public class EntryService {
                 entry.getUpdatedAt()
         );
     }
-
-
 }
 
 
