@@ -79,7 +79,9 @@ Creates a new journal entry for the authenticated user.
   {
     "title": "Untitled",
     "content": "Today I felt calm.",
-    "moods": ["calm"]
+    "moodIds": [
+      "5bb3b181-...."
+    ],
   }
   ```
 
@@ -303,7 +305,10 @@ Only changed fields should be sent.
 
   ```json
   {
-    "moods": ["calm", "happy"]
+    "moodIds": [
+      "5bb3b181-....",
+      "7da922bd-...."
+    ]
   }
   ```
 
