@@ -165,7 +165,8 @@ public class EntryService {
                 entry.getTitle(),
                 entry.getContent(),
                 moodNames,
-                entry.getCreatedAt()
+                entry.getCreatedAt(),
+                entry.getUpdatedAt()
         );
     }
 

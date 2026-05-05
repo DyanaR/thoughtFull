@@ -12,13 +12,15 @@ public class EntryResponse {
     private String content;
     private Set<String> moods;
     private Instant createdAt;
+    private Instant updatedAt;
 
-    public EntryResponse(UUID id, String title, String content, Set<String> moods, Instant createdAt) {
+    public EntryResponse(UUID id, String title, String content, Set<String> moods, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.moods = moods;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public UUID getId() { return id; }
@@ -26,4 +28,5 @@ public class EntryResponse {
     public String getContent() { return content; }
     public Set<String> getMoods() { return moods; }
     public Instant getCreatedAt() { return createdAt; }
+    public Instant getUpdatedAt() { return updatedAt;}
 }
