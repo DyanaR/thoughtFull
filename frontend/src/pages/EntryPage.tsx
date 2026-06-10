@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getEntryById, updateEntry } from "../services/api";
+import { getEntryById, updateEntry } from "../services/entries";
 import { useAuth0 } from "@auth0/auth0-react";
 import type { Entry } from "../types";
 

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import "../App.css";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getCurrentUser, getCurrentEntries } from "../services/api";
+import { getCurrentEntries } from "../services/entries";
+import { getCurrentUser } from "../services/users";
 import AddEntry from "../components/AddEntry";
 import EntryList from "../components/EntryList";
 import type { User, Entry } from "../types";

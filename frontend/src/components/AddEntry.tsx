@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createEntry } from "../services/api";
+import { createEntry } from "../services/entries";
 import type { Entry } from "../types";
 
 type AddEntryProps = {

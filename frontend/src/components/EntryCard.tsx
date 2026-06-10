@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { deleteEntry } from "../services/api";
+import { deleteEntry } from "../services/entries";
 import { useAuth0 } from "@auth0/auth0-react";
 import type { Entry } from "../types";
 

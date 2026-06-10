@@ -1,23 +1,4 @@
-import type {
-  User,
-  Entry,
-  CreateEntryRequest,
-  UpdateEntryRequest,
-} from "../types";
-
-// Get current user logged in
-export async function getCurrentUser(token: string): Promise<User> {
-  const response = await fetch("http://localhost:8080/api/v1/users/me", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch current user");
-  }
-  return response.json();
-}
+import type { Entry, CreateEntryRequest, UpdateEntryRequest } from "../types";
 
 // Get All User's Entries
 export async function getCurrentEntries(token: string): Promise<Entry[]> {
