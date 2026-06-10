@@ -99,3 +99,20 @@ export async function updateEntry(
 
   return response.json();
 }
+
+// Delete an Entry by ID
+export async function deleteEntry(token: string, entryId: string) {
+  const response = await fetch(
+    `http://localhost:8080/api/v1/entries/${entryId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to delete entry. Status: ${response.status}`);
+  }
+}
