@@ -8,15 +8,6 @@ function EntryPage() {
   const { id } = useParams();
   const { getAccessTokenSilently } = useAuth0();
 
-  type Entry = {
-    id: string;
-    title: string;
-    content: string;
-    moods: string[];
-    createdAt: string;
-    updatedAt: string;
-  };
-
   const [entry, setEntry] = useState<Entry | null>(null);
 
   useEffect(() => {
