@@ -77,7 +77,14 @@ function HomePage() {
             />
             <h3>{backendUser.name} Journal Entries </h3>
             <div>
-              <EntryList entries={userEntries} />
+              <EntryList
+                entries={userEntries}
+                onEntryDeleted={(deletedId) =>
+                  setUserEntries((prev) =>
+                    prev.filter((entry) => entry.id !== deletedId),
+                  )
+                }
+              />
             </div>
           </>
         )}

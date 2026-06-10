@@ -1,17 +1,18 @@
 import EntryCard from "./EntryCard";
 
 interface Entry {
-  id: number;
+  id: string;
   title: string;
-  moods: string;
+  moods: string[];
   content: string;
 }
 
 interface EntryListProps {
   entries: Entry[];
+  onEntryDeleted: (id: string) => void;
 }
 
-function EntryList({ entries }: EntryListProps) {
+function EntryList({ entries, onEntryDeleted }: EntryListProps) {
   return (
     <>
       <div
@@ -24,11 +25,13 @@ function EntryList({ entries }: EntryListProps) {
           gap: "1rem",
         }}
       >
-        {entries.length > 0 ? (
-          entries.map((entry) => <EntryCard key={entry.id} entry={entry} />)
-        ) : (
-          <p>No entries yet.</p>
-        )}
+        {entries.map((entry: any) => (
+          <EntryCard
+            key={entry.id}
+            entry={entry}
+            onEntryDeleted={onEntryDeleted}
+          />
+        ))}
       </div>
     </>
   );
