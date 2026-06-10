@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { deleteEntry } from "../services/api";
 import { useAuth0 } from "@auth0/auth0-react";
+import type { Entry } from "../types";
 
 type EntryCardProps = {
-  entry: any;
+  entry: Entry;
   onEntryDeleted: (id: string) => void;
 };
 

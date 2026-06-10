@@ -1,4 +1,12 @@
-export async function getCurrentUser(token: string) {
+import type {
+  User,
+  Entry,
+  CreateEntryRequest,
+  UpdateEntryRequest,
+} from "../types";
+
+// Get current user logged in
+export async function getCurrentUser(token: string): Promise<User> {
   const response = await fetch("http://localhost:8080/api/v1/users/me", {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -12,7 +20,7 @@ export async function getCurrentUser(token: string) {
 }
 
 // Get All User's Entries
-export async function getCurrentEntries(token: string) {
+export async function getCurrentEntries(token: string): Promise<Entry[]> {
   const response = await fetch("http://localhost:8080/api/v1/entries", {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -25,14 +33,10 @@ export async function getCurrentEntries(token: string) {
 }
 
 // Create Journal Entry
-
-type CreateEntryRequest = {
-  title: string;
-  content: string;
-  moodIds?: string[];
-};
-
-export async function createEntry(token: string, request: CreateEntryRequest) {
+export async function createEntry(
+  token: string,
+  request: CreateEntryRequest,
+): Promise<Entry> {
   const response = await fetch("http://localhost:8080/api/v1/entries", {
     method: "POST",
     headers: {
@@ -52,7 +56,10 @@ export async function createEntry(token: string, request: CreateEntryRequest) {
 }
 
 // Get a Entry by ID
-export async function getEntryById(token: string, entryId: string) {
+export async function getEntryById(
+  token: string,
+  entryId: string,
+): Promise<Entry> {
   const response = await fetch(
     `http://localhost:8080/api/v1/entries/${entryId}`,
     {
@@ -69,18 +76,12 @@ export async function getEntryById(token: string, entryId: string) {
   return response.json();
 }
 
-// Edit an Entry by ID
-type UpdateEntryRequest = {
-  title?: string;
-  content?: string;
-  moodIds?: string[];
-};
-
+// Update an Entry by ID
 export async function updateEntry(
   token: string,
   entryId: string,
   request: UpdateEntryRequest,
-) {
+): Promise<Entry> {
   const response = await fetch(
     `http://localhost:8080/api/v1/entries/${entryId}`,
     {
@@ -101,7 +102,10 @@ export async function updateEntry(
 }
 
 // Delete an Entry by ID
-export async function deleteEntry(token: string, entryId: string) {
+export async function deleteEntry(
+  token: string,
+  entryId: string,
+): Promise<void> {
   const response = await fetch(
     `http://localhost:8080/api/v1/entries/${entryId}`,
     {

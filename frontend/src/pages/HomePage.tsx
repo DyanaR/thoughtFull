@@ -4,6 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { getCurrentUser, getCurrentEntries } from "../services/api";
 import AddEntry from "../components/AddEntry";
 import EntryList from "../components/EntryList";
+import type { User, Entry } from "../types";
 
 function HomePage() {
   // loginWithRedirect: redirects user to Auth0 login page
@@ -18,8 +19,8 @@ function HomePage() {
     getAccessTokenSilently,
   } = useAuth0();
 
-  const [backendUser, setBackendUser] = useState<any>(null);
-  const [userEntries, setUserEntries] = useState<any[]>([]);
+  const [backendUser, setBackendUser] = useState<User | null>(null);
+  const [userEntries, setUserEntries] = useState<Entry[]>([]);
   // const [selectedEntry, setSelectedEntry] = useState<any>(null);
 
   useEffect(() => {

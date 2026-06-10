@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { createEntry } from "../services/api";
+import type { Entry } from "../types";
 
 type AddEntryProps = {
   getAccessTokenSilently: () => Promise<string>;
-  onEntryCreated: (entry: any) => void;
+  onEntryCreated: (entry: Entry) => void;
 };
 
 function AddEntry({ getAccessTokenSilently, onEntryCreated }: AddEntryProps) {

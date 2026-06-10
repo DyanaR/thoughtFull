@@ -1,16 +1,10 @@
 import EntryCard from "./EntryCard";
+import type { Entry } from "../types";
 
-interface Entry {
-  id: string;
-  title: string;
-  moods: string[];
-  content: string;
-}
-
-interface EntryListProps {
+type EntryListProps = {
   entries: Entry[];
   onEntryDeleted: (id: string) => void;
-}
+};
 
 function EntryList({ entries, onEntryDeleted }: EntryListProps) {
   return (
