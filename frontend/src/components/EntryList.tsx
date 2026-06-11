@@ -14,9 +14,10 @@ function EntryList({ entries, onEntryDeleted }: EntryListProps) {
         style={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "1rem",
+          gap: "1.5rem",
+          width: "100%",
+          padding: "1rem 0",
+          paddingBottom: "20rem",
         }}
       >
         {entries.map((entry: any) => (
