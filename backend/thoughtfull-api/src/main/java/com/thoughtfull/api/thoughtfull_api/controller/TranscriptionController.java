@@ -24,7 +24,6 @@ import java.io.IOException;
 @RestController
 //set base URL for all endpoints in this controller
 @RequestMapping("/api/v1/transcriptions")
-@CrossOrigin(origins = "http://localhost:5173")
 public class TranscriptionController { // place where requests come in
 
     // create object of "transcription engine" that converts audio into text
