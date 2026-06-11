@@ -9,7 +9,6 @@ import "../App.css";
 import { IoIosArrowBack } from "react-icons/io";
 import { MdMood } from "react-icons/md";
 import { MdOutlineDelete } from "react-icons/md";
-import { FaCheck } from "react-icons/fa6";
 import AudioTranscriber from "../components/AudioTranscriber";
 
 function EntryPage() {
