@@ -8,11 +8,17 @@ export type User = {
   name: string;
 };
 
+export type Mood = {
+  id: string;
+  name: string;
+  color: string;
+};
+
 export type Entry = {
   id: string;
   title: string;
   content: string;
-  moods: string[];
+  moods: Mood[];
   createdAt: string;
   updatedAt: string;
 };
