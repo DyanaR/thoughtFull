@@ -77,7 +77,7 @@ function HomePage() {
 
           <div style={{ paddingBottom: "5rem" }}>
             <p style={{ fontSize: "14px" }}>{formatCurrentDate(currentDate)}</p>
-            <h2>Hi {user?.name}, Welcome!</h2>
+            <h2>Hi {backendUser?.name}, Welcome!</h2>
           </div>
 
           {backendUser && (

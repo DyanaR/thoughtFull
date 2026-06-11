@@ -1,5 +1,6 @@
 package com.thoughtfull.api.thoughtfull_api.service;
 
+import com.thoughtfull.api.thoughtfull_api.dto.UpdateUserRequest;
 import com.thoughtfull.api.thoughtfull_api.dto.UserResponse;
 import com.thoughtfull.api.thoughtfull_api.model.User;
 import com.thoughtfull.api.thoughtfull_api.repository.UserRepository;
@@ -39,17 +40,28 @@ public class UserService {
         // EX: "auth0|abc123"
         String auth0Id = jwt.getSubject();
 
-        // step 2: get user's name from token
-        // it pulls it from JWT payload
-        String rawName = jwt.getClaimAsString("name");
-        // step 3: fallback if name is missing
-        String name = (rawName == null || rawName.isBlank()) ? "User" : rawName;
-
         // step 4: check database for existing  user
         return userRepository.findByAuth0Id(auth0Id)
-                // if user exists -> return it
 
                 // if NOT -> create new user and save to DB
-                .orElseGet(() -> userRepository.save(new User(auth0Id, name)));
+                .orElseGet(() -> userRepository.save(
+                new User(auth0Id, "")
+        ));
+    }
+
+    public UserResponse updateCurrentUser(
+            Jwt jwt,
+            UpdateUserRequest request
+    ) {
+        User user = getOrCreateUser(jwt);
+
+        user.setName(request.getName().trim());
+
+        User updatedUser = userRepository.save(user);
+
+        return new UserResponse(
+                updatedUser.getId(),
+                updatedUser.getName()
+        );
     }
 }

@@ -1,13 +1,13 @@
 package com.thoughtfull.api.thoughtfull_api.controller;
 
-
+import com.thoughtfull.api.thoughtfull_api.dto.UpdateUserRequest;
 import com.thoughtfull.api.thoughtfull_api.dto.UserResponse;
 import com.thoughtfull.api.thoughtfull_api.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -24,4 +24,11 @@ public class UserController {
         return userService.getCurrentUser(jwt);
     }
 
+    @PatchMapping("/me")
+    public UserResponse updateCurrentUser(
+            @AuthenticationPrincipal Jwt jwt,
+            @RequestBody UpdateUserRequest request
+    ) {
+        return userService.updateCurrentUser(jwt, request);
+    }
 }

@@ -8,12 +8,16 @@ function LandingPage() {
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      navigate("/home", { replace: true });
+      navigate("/auth-redirect", { replace: true });
     }
   }, [isLoading, isAuthenticated, navigate]);
 
   const handleAuthClick = () => {
-    loginWithRedirect();
+    loginWithRedirect({
+      appState: {
+        returnTo: "/auth-redirect",
+      },
+    });
   };
 
   if (isLoading) return null;
