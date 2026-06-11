@@ -13,13 +13,7 @@ function HomePage() {
   // logout: logs user out and redirects back to app
   // isAuthenticated: true if user is logged in, false otherwise
   // user: object containing logged-in user ingo (e.g., name, email)
-  const {
-    loginWithRedirect,
-    logout,
-    isAuthenticated,
-    user,
-    getAccessTokenSilently,
-  } = useAuth0();
+  const { logout, user, getAccessTokenSilently } = useAuth0();
 
   const navigate = useNavigate();
 
@@ -31,22 +25,17 @@ function HomePage() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (!isAuthenticated) return;
-
       const token = await getAccessTokenSilently();
 
-      // user
       const user = await getCurrentUser(token);
       setBackendUser(user);
-      console.log(user);
 
-      // all entries
       const entries = await getCurrentEntries(token);
       setUserEntries(entries);
-      console.log(entries);
     };
+
     fetchUser();
-  }, [isAuthenticated, getAccessTokenSilently]);
+  }, [getAccessTokenSilently]);
 
   function formatCurrentDate(date: Date) {
     return `Today, ${date.getDate()} ${date.toLocaleDateString([], {
@@ -59,33 +48,33 @@ function HomePage() {
       <div style={{ padding: "var(--lg-container)" }}>
         <div>
           {/* user not logged in */}
-          {!isAuthenticated && (
+          {/* {!isAuthenticated && (
             <div onClick={() => loginWithRedirect()}>Login</div>
-          )}
+          )} */}
 
           {/* user logged in */}
-          {isAuthenticated && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                paddingTop: "2rem",
-                paddingBottom: "2rem",
-              }}
-            >
-              <h1 className="logo">
-                thought<span>Full</span>
-              </h1>
-              <FiLogOut
-                className="icons"
-                onClick={() =>
-                  logout({ logoutParams: { returnTo: window.location.origin } })
-                }
-              />
-            </div>
-          )}
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              paddingTop: "2rem",
+              paddingBottom: "2rem",
+            }}
+          >
+            <h1 className="logo">
+              thought<span>Full</span>
+            </h1>
+            <FiLogOut
+              className="icons"
+              onClick={() =>
+                logout({ logoutParams: { returnTo: window.location.origin } })
+              }
+            />
+          </div>
+
           <div style={{ paddingBottom: "5rem" }}>
             <p style={{ fontSize: "14px" }}>{formatCurrentDate(currentDate)}</p>
             <h2>Hi {user?.name}, Welcome!</h2>
