@@ -9,6 +9,8 @@ type AudioTranscriberProps = {
   onError?: (error: string) => void;
 };
 
+const MAX_RECORDING_MS = 360000; // 6 minutes
+
 function AudioTranscriber({
   onTranscriptReady,
   onStatusChange,
@@ -22,8 +24,14 @@ function AudioTranscriber({
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
 
+  const recordingTimerRef = useRef<number | null>(null);
+
   const handleMicClick = async () => {
     if (isRecording) {
+      if (recordingTimerRef.current) {
+        clearTimeout(recordingTimerRef.current);
+      }
+
       mediaRecorderRef.current?.stop();
       setIsRecording(false);
       onStatusChange?.("Transcribing...");
@@ -50,6 +58,10 @@ function AudioTranscriber({
         try {
           setIsTranscribing(true);
 
+          if (recordingTimerRef.current) {
+            clearTimeout(recordingTimerRef.current);
+          }
+
           const audioBlob = new Blob(audioChunksRef.current, {
             type: "audio/webm",
           });
@@ -75,6 +87,12 @@ function AudioTranscriber({
 
       mediaRecorder.start();
       setIsRecording(true);
+
+      recordingTimerRef.current = window.setTimeout(() => {
+        mediaRecorderRef.current?.stop();
+        setIsRecording(false);
+        onStatusChange?.("Recording limit reached. Transcribing...");
+      }, MAX_RECORDING_MS);
     } catch (err) {
       console.error(err);
       onError?.("Microphone access was denied.");

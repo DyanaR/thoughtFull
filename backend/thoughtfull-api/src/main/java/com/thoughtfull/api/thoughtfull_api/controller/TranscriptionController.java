@@ -26,6 +26,8 @@ import java.io.IOException;
 @RequestMapping("/api/v1/transcriptions")
 public class TranscriptionController { // place where requests come in
 
+    private static final long MAX_FILE_SIZE = 25 * 1024 * 1024; // 25MB
+
     // create object of "transcription engine" that converts audio into text
     private final OpenAiAudioTranscriptionModel transcriptionModel;
 
@@ -47,12 +49,19 @@ public class TranscriptionController { // place where requests come in
                     .body("No audio file uploaded");
         }
 
+
         String originalFilename = file.getOriginalFilename();
         // prevent StringIndexOutOfBoundsException - if filename has no dot, lastIndexOf(".") returns -1
         if (originalFilename == null || !originalFilename.contains(".")){
             return ResponseEntity
                     .badRequest()
                     .body("Invalid file name");
+        }
+
+        if (file.getSize() > MAX_FILE_SIZE) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Audio file is too large. Please keep recordings under 6 minutes.");
         }
 
         // Handles checked IO exceptions that can occur due to external system failures
