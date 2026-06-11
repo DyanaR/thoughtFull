@@ -7,6 +7,10 @@ plugins {
 group = 'com.thoughtfull.api'
 version = '0.0.1-SNAPSHOT'
 
+ext {
+	set('springAiVersion', "1.1.2")
+}
+
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
@@ -23,10 +27,19 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	implementation 'org.springframework.ai:spring-ai-starter-model-openai'
+
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+	}
 }
 
 tasks.named('test') {
