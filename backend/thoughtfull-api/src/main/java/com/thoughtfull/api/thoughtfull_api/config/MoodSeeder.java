@@ -12,14 +12,14 @@ public class MoodSeeder {
     @Bean
     CommandLineRunner seedMoods(MoodRepository moodRepository) {
         return args ->  {
-            createMoodIfMissing(moodRepository, "happy", "#FFD700");
-            createMoodIfMissing(moodRepository, "calm", "#87CEFA");
-            createMoodIfMissing(moodRepository, "sad", "#1E90FF");
-            createMoodIfMissing(moodRepository, "anxious", "#FF8C00");
-            createMoodIfMissing(moodRepository, "angry", "#FF0000");
-            createMoodIfMissing(moodRepository, "grateful", "#32CD32");
-            createMoodIfMissing(moodRepository, "excited", "#FF69B4");
-            createMoodIfMissing(moodRepository, "tired", "#A9A9A9");
+            createMoodIfMissing(moodRepository, "happy", "#FDE7A8");
+            createMoodIfMissing(moodRepository, "calm", "#CEC0EE");
+            createMoodIfMissing(moodRepository, "sad", "#C9D8F0");
+            createMoodIfMissing(moodRepository, "anxious", "#FDDAC2");
+            createMoodIfMissing(moodRepository, "angry", "#F6C6C6");
+            createMoodIfMissing(moodRepository, "grateful", "#CDEBCF");
+            createMoodIfMissing(moodRepository, "excited", "#F8C9DE");
+            createMoodIfMissing(moodRepository, "tired", "#E0E0E0");
         };
     }
 

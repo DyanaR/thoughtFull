@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import com.thoughtfull.api.thoughtfull_api.dto.MoodResponse;
 
 import java.util.List;
 import java.util.Set;
@@ -163,16 +164,20 @@ public class EntryService {
     private EntryResponse toEntryResponse(Entry entry) {
 
         // extract mood names
-        Set<String> moodNames = entry.getMoods()
+        Set<MoodResponse> moods = entry.getMoods()
                 .stream()
-                .map(Mood::getName)
+                .map(mood -> new MoodResponse(
+                        mood.getId(),
+                        mood.getName(),
+                        mood.getColor()
+                ))
                 .collect(Collectors.toSet());
 
         return new EntryResponse(
                 entry.getId(),
                 entry.getTitle(),
                 entry.getContent(),
-                moodNames,
+                moods,
                 entry.getCreatedAt(),
                 entry.getUpdatedAt()
         );
