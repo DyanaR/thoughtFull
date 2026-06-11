@@ -1,7 +1,8 @@
 import type { User } from "../types";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function getCurrentUser(token: string): Promise<User> {
-  const response = await fetch("http://localhost:8080/api/v1/users/me", {
+  const response = await fetch(`${API_URL}/api/v1/users/me`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -15,7 +16,7 @@ export async function getCurrentUser(token: string): Promise<User> {
 }
 
 export async function updateCurrentUser(token: string, data: { name: string }) {
-  const response = await fetch("http://localhost:8080/api/v1/users/me", {
+  const response = await fetch(`${API_URL}/api/v1/users/me`, {
     method: "PATCH",
     headers: {
       Authorization: `Bearer ${token}`,
