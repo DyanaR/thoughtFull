@@ -157,6 +157,21 @@
   font-weight: 600;
 
   cursor: pointer;
+
+  color: white;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.primary-button,
+.primary-button:visited,
+.primary-button:active {
+  color: white;
+}
+
+.primary-button:disabled {
+  color: white;
+  opacity: 0.5;
 }
 
 .buttons-group {
@@ -268,6 +283,7 @@
   border: none;
   outline: none;
   background: transparent;
+  color: black;
 
   font-family: var(--font-t);
   font-size: 2rem;
