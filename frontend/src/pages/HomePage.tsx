@@ -45,15 +45,14 @@ function HomePage() {
 
   return (
     <>
-      <div style={{ padding: "var(--lg-container)" }}>
-        <div>
-          {/* user not logged in */}
-          {/* {!isAuthenticated && (
+      <div className="home-page" style={{ padding: "var(--lg-container)" }}>
+        {/* user not logged in */}
+        {/* {!isAuthenticated && (
             <div onClick={() => loginWithRedirect()}>Login</div>
           )} */}
 
-          {/* user logged in */}
-
+        {/* user logged in */}
+        <div className="home-static">
           <div
             style={{
               display: "flex",
@@ -75,39 +74,30 @@ function HomePage() {
             />
           </div>
 
-          <div style={{ paddingBottom: "5rem" }}>
+          <div className="home-header" style={{ paddingBottom: "5rem" }}>
             <p style={{ fontSize: "14px" }}>{formatCurrentDate(currentDate)}</p>
             <h2>Hi {backendUser?.name}, Welcome!</h2>
           </div>
+        </div>
 
-          {backendUser && (
-            <>
-              {/* <AddEntry
-                getAccessTokenSilently={getAccessTokenSilently}
-                // this updates the state manually for faster displaying of all entries
-                // if want to gurantee synced with db, then call getCurrentEntries
-                onEntryCreated={(entry) =>
-                  setUserEntries((prev) => [entry, ...prev])
+        {backendUser && (
+          <>
+            <h3 style={{ paddingBottom: "1rem" }}>Recent Journal Entries</h3>
+            <div className="entries-scroll-area">
+              <EntryList
+                entries={userEntries}
+                onEntryDeleted={(deletedId) =>
+                  setUserEntries((prev) =>
+                    prev.filter((entry) => entry.id !== deletedId),
+                  )
                 }
               />
-              <h3>{backendUser.name} Journal Entries </h3> */}
-              <div>
-                <h3>Recent Journal Entries</h3>
-                <EntryList
-                  entries={userEntries}
-                  onEntryDeleted={(deletedId) =>
-                    setUserEntries((prev) =>
-                      prev.filter((entry) => entry.id !== deletedId),
-                    )
-                  }
-                />
-              </div>
-            </>
-          )}
-          <button className="primary-button" onClick={() => navigate("/moods")}>
-            Add Entry
-          </button>
-        </div>
+            </div>
+          </>
+        )}
+        <button className="primary-button" onClick={() => navigate("/moods")}>
+          Add Entry
+        </button>
       </div>
     </>
   );
