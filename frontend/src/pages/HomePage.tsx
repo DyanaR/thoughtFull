@@ -13,7 +13,7 @@ function HomePage() {
   // logout: logs user out and redirects back to app
   // isAuthenticated: true if user is logged in, false otherwise
   // user: object containing logged-in user ingo (e.g., name, email)
-  const { logout, user, getAccessTokenSilently } = useAuth0();
+  const { logout, getAccessTokenSilently } = useAuth0();
 
   const navigate = useNavigate();
 
