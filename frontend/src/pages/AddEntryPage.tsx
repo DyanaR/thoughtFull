@@ -6,8 +6,8 @@ import { useLocation } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import type { Mood } from "../types";
 import { MdOutlineDelete } from "react-icons/md";
-import { IoIosMic } from "react-icons/io";
 import { FaCheck } from "react-icons/fa6";
+import AudioTranscriber from "../components/AudioTranscriber";
 
 function AddEntryPage() {
   const location = useLocation();
@@ -20,6 +20,9 @@ function AddEntryPage() {
   const [userTitle, setUserTitle] = useState("");
   const [userContent, setUserContent] = useState("");
   const [error, setError] = useState("");
+
+  const [audioStatus, setAudioStatus] = useState("");
+  const [audioError, setAudioError] = useState("");
 
   const currentDateTime = new Date();
 
@@ -153,6 +156,8 @@ function AddEntryPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="entry-page">
+          {audioStatus && <p className="small-text">{audioStatus}</p>}
+          {audioError && <p className="form-error show">{audioError}</p>}
           <input
             value={userTitle}
             onChange={(e) => setUserTitle(e.target.value)}
@@ -180,9 +185,15 @@ function AddEntryPage() {
 
             <div className="divider" />
 
-            <button className="group-button">
-              <IoIosMic className="icons" />
-            </button>
+            <AudioTranscriber
+              onTranscriptReady={(transcript) =>
+                setUserContent((prev) =>
+                  prev ? `${prev}\n\n${transcript}` : transcript,
+                )
+              }
+              onStatusChange={setAudioStatus}
+              onError={setAudioError}
+            />
 
             <div className="divider" />
 

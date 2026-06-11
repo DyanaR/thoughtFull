@@ -9,8 +9,8 @@ import "../App.css";
 import { IoIosArrowBack } from "react-icons/io";
 import { MdMood } from "react-icons/md";
 import { MdOutlineDelete } from "react-icons/md";
-import { IoIosMic } from "react-icons/io";
 import { FaCheck } from "react-icons/fa6";
+import AudioTranscriber from "../components/AudioTranscriber";
 
 function EntryPage() {
   const navigate = useNavigate();
@@ -23,6 +23,9 @@ function EntryPage() {
   const [showMoods, setShowMoods] = useState(false);
 
   const [selectedMoodIds, setSelectedMoodIds] = useState<string[]>([]);
+
+  const [audioStatus, setAudioStatus] = useState("");
+  const [audioError, setAudioError] = useState("");
 
   useEffect(() => {
     const fetchEntry = async () => {
@@ -191,7 +194,8 @@ function EntryPage() {
               ))}
             </div>
           </div>
-
+          {audioStatus && <p className="small-text">{audioStatus}</p>}
+          {audioError && <p className="form-error show">{audioError}</p>}
           <input
             value={entry.title}
             onChange={(e) => setEntry({ ...entry, title: e.target.value })}
@@ -219,16 +223,24 @@ function EntryPage() {
           </button>
 
           <div className="divider" />
-
-          <button className="group-button">
-            <IoIosMic className="icons" />
-          </button>
+          <AudioTranscriber
+            onTranscriptReady={(transcript) =>
+              setEntry((prev) =>
+                prev
+                  ? {
+                      ...prev,
+                      content: prev.content
+                        ? `${prev.content}\n\n${transcript}`
+                        : transcript,
+                    }
+                  : prev,
+              )
+            }
+            onStatusChange={setAudioStatus}
+            onError={setAudioError}
+          />
 
           <div className="divider" />
-
-          <button className="group-button" type="submit">
-            <FaCheck className="icons" />
-          </button>
         </div>
       </div>
     </>
