@@ -1,21 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap");
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
+  --text-logo: #9eb169;
+  --text: #000000;
+  --text-s: #a1a1a1;
+  --bg: #f8f2ed;
+  --bg-2: white;
+  --border: #c8c8c8;
+  --radius: 5px;
+  --icon: 2rem;
+  --accent: #9eb169;
   --accent-bg: rgba(170, 59, 255, 0.1);
   --accent-border: rgba(170, 59, 255, 0.5);
   --social-bg: rgba(244, 243, 236, 0.5);
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --heading: system-ui, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace; */
+  --font-t: Inter, sans-serif;
+  --font-h: "Playfair Display", serif;
 
-  font: 18px/145% var(--sans);
+  --lg-container: 2rem 4rem;
+  --md-container: 1rem 2rem;
+  --sm-container: 0.5rem 1rem;
+
   letter-spacing: 0.18px;
   color-scheme: light dark;
   color: var(--text);
@@ -30,7 +40,7 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --text: #9ca3af;
     --text-h: #f3f4f6;
@@ -48,25 +58,29 @@
   #social .button-icon {
     filter: invert(1) brightness(2);
   }
-}
+} */
 
 #root {
   width: 1126px;
   max-width: 100%;
   margin: 0 auto;
-  text-align: center;
+  /* text-align: center; */
   border-inline: 1px solid var(--border);
   min-height: 100svh;
-  display: flex;
-  flex-direction: column;
+  /* display: flex; */
+  /* flex-direction: column; */
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--bg);
 }
 
-h1,
+/* h1,
 h2 {
   font-family: var(--heading);
   font-weight: 500;
@@ -90,22 +104,26 @@ h2 {
   @media (max-width: 1024px) {
     font-size: 20px;
   }
+} */
+
+h2 {
+  font-family: var(--font-h);
+  color: var(--text);
+  margin: 0;
+  font-size: 32px;
+  font-weight: 600;
 }
+
+h3 {
+  font-family: var(--font-t);
+  color: var(--text);
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
+}
+
 p {
   margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+  font-family: var(--font-t);
+  font-size: 12px;
 }

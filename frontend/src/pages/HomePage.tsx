@@ -59,7 +59,7 @@ function HomePage() {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
-              paddingTop: "2rem",
+              paddingTop: "1rem",
               paddingBottom: "2rem",
             }}
           >
