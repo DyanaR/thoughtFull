@@ -34,14 +34,20 @@ function NamePage() {
 
   return (
     <div style={{ padding: "var(--lg-container)" }}>
+      <h1
+        className="logo"
+        style={{ paddingTop: "3rem", paddingBottom: "5rem" }}
+      >
+        thought<span>Full</span>
+      </h1>
       <h2>What should we call you?</h2>
-
-      <p className="small-text">
+      <p style={{ paddingTop: "1rem", fontSize: "14px" }}>
         This is how your name will appear throughout ThoughtFull.
       </p>
       {error && <p className="form-error show">{error}</p>}
 
       <input
+        // style={{ font: "var(--font-h)" }}
         type="text"
         value={name}
         placeholder="Enter your name"

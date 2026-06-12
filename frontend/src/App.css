@@ -171,7 +171,8 @@
 
 .primary-button:disabled {
   color: white;
-  opacity: 0.5;
+  opacity: 1;
+  background-color: #444444;
 }
 
 .buttons-group {
@@ -285,12 +286,17 @@
   background: transparent;
   color: black;
 
-  font-family: var(--font-t);
-  font-size: 2rem;
+  font-family: var(--font-h);
+  font-size: 1.5rem;
   font-weight: 600;
 
   border-bottom: 1px solid #c8c8c8;
   padding-bottom: 0.5rem;
+  transition: border-color 0.2s ease;
+}
+
+.name-input:focus {
+  border-bottom: 2px solid var(--accent); /* green */
 }
 
 .home-page {
