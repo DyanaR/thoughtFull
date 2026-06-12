@@ -3,11 +3,10 @@ import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { createEntry } from "../services/entries";
 import { useLocation } from "react-router-dom";
-import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowBack, IoIosMic } from "react-icons/io";
 import type { Mood } from "../types";
-import { MdOutlineDelete } from "react-icons/md";
 import { FaCheck } from "react-icons/fa6";
-import AudioTranscriber from "../components/AudioTranscriber";
+import { IoMdClose } from "react-icons/io";
 
 function AddEntryPage() {
   const location = useLocation();
@@ -19,12 +18,10 @@ function AddEntryPage() {
 
   const [userTitle, setUserTitle] = useState("");
   const [userContent, setUserContent] = useState("");
-  const [error, setError] = useState("");
-
-  const [audioStatus, setAudioStatus] = useState("");
-  const [audioError, setAudioError] = useState("");
+  const [error, setError] = useState(location.state?.audioError ?? "");
 
   const currentDateTime = new Date();
+  const transcript = location.state?.transcript ?? "";
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -62,29 +59,30 @@ function AddEntryPage() {
     return () => clearTimeout(timer);
   }, [error]);
 
+  useEffect(() => {
+    if (location.state?.userTitle) {
+      setUserTitle(location.state.userTitle);
+    }
+    if (location.state?.userContent) {
+      setUserContent(location.state.userContent);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (transcript) {
+      setUserContent((prev) =>
+        prev ? `${prev}\n\n${transcript}` : transcript,
+      );
+    }
+  }, [transcript]);
+
   function formatDateTime(dateString: string) {
     const date = new Date(dateString);
-
-    const today = new Date();
-    const yesterday = new Date();
-
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    const isToday = date.toDateString() === today.toDateString();
-    const isYesterday = date.toDateString() === yesterday.toDateString();
 
     const time = date.toLocaleTimeString([], {
       hour: "numeric",
       minute: "2-digit",
     });
-
-    if (isToday) {
-      return `Today, ${time}`;
-    }
-
-    if (isYesterday) {
-      return `Yesterday, ${time}`;
-    }
 
     return (
       date.toLocaleDateString([], {
@@ -100,6 +98,7 @@ function AddEntryPage() {
         <div className="entry-progress">
           <div className="entry-progress-fill" style={{ width: "100%" }} />
         </div>
+
         <div
           style={{
             position: "relative",
@@ -115,6 +114,8 @@ function AddEntryPage() {
                 state: {
                   moodIds,
                   selectedMoods,
+                  userTitle,
+                  userContent,
                 },
               })
             }
@@ -123,41 +124,41 @@ function AddEntryPage() {
               left: 0,
             }}
           />
+
           <h3>Create New Journal</h3>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            gap: "1rem",
-            paddingTop: "3rem",
-            paddingBottom: "2rem",
-          }}
-        >
-          <p className="date-time-pill">
-            {formatDateTime(currentDateTime.toISOString())}
-          </p>
+        <form onSubmit={handleSubmit} className="entry-page">
           <div
             style={{
               display: "flex",
-              gap: ".5rem",
+              gap: "1rem",
+              paddingTop: "3rem",
+              paddingBottom: "2rem",
             }}
           >
-            {selectedMoods.map((mood) => (
-              <span
-                key={mood.id}
-                style={{ backgroundColor: mood.color }}
-                className="selected-mood-pill"
-              >
-                {mood.name}
-              </span>
-            ))}
-          </div>
-        </div>
+            <p className="date-time-pill">
+              {formatDateTime(currentDateTime.toISOString())}
+            </p>
 
-        <form onSubmit={handleSubmit} className="entry-page">
-          {audioStatus && <p className="small-text">{audioStatus}</p>}
-          {audioError && <p className="form-error show">{audioError}</p>}
+            <div
+              style={{
+                display: "flex",
+                gap: ".5rem",
+              }}
+            >
+              {selectedMoods.map((mood) => (
+                <span
+                  key={mood.id}
+                  style={{ backgroundColor: mood.color }}
+                  className="selected-mood-pill"
+                >
+                  {mood.name}
+                </span>
+              ))}
+            </div>
+          </div>
+
           <input
             value={userTitle}
             onChange={(e) => setUserTitle(e.target.value)}
@@ -177,15 +178,48 @@ function AddEntryPage() {
           <div className="buttons-group">
             <button
               type="button"
-              className="group-button"
+              className="third-button outline"
               onClick={() => navigate("/home")}
             >
-              <MdOutlineDelete className="icons" />
+              <IoMdClose className="icons" />
             </button>
 
-            <div className="divider" />
+            {/* <button
+              type="button"
+              className="third-button mic"
+              onClick={() =>
+                navigate("/record-audio", {
+                  state: {
+                    moodIds,
+                    selectedMoods,
+                    userTitle,
+                    userContent,
+                  },
+                })
+              }
+            >
+              <IoIosMic className="icons" />
+            </button> */}
 
-            <AudioTranscriber
+            <button
+              type="button"
+              className="third-button mic"
+              onClick={() =>
+                navigate("/record-audio", {
+                  state: {
+                    moodIds,
+                    selectedMoods,
+                    userTitle,
+                    userContent,
+                    startRecording: true,
+                  },
+                })
+              }
+            >
+              <IoIosMic className="icons" />
+            </button>
+
+            {/* <AudioTranscriber
               onTranscriptReady={(transcript) =>
                 setUserContent((prev) =>
                   prev ? `${prev}\n\n${transcript}` : transcript,
@@ -193,11 +227,9 @@ function AddEntryPage() {
               }
               onStatusChange={setAudioStatus}
               onError={setAudioError}
-            />
+            /> */}
 
-            <div className="divider" />
-
-            <button className="group-button" type="submit">
+            <button className="third-button outline" type="submit">
               <FaCheck className="icons" />
             </button>
           </div>

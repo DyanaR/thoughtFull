@@ -7,6 +7,7 @@ import EntryList from "../components/EntryList";
 import type { User, Entry } from "../types";
 import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { HiOutlinePencil } from "react-icons/hi2";
 
 function HomePage() {
   // loginWithRedirect: redirects user to Auth0 login page
@@ -53,7 +54,7 @@ function HomePage() {
 
         {/* user logged in */}
         <div className="home-static">
-          <div
+          {/* <div
             style={{
               display: "flex",
               flexDirection: "row",
@@ -66,6 +67,19 @@ function HomePage() {
             <h1 className="logo">
               thought<span>Full</span>
             </h1>
+            <FiLogOut
+              className="icons"
+              onClick={() =>
+                logout({ logoutParams: { returnTo: window.location.origin } })
+              }
+            />
+          </div> */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
             <FiLogOut
               className="icons"
               onClick={() =>
@@ -95,8 +109,14 @@ function HomePage() {
             </div>
           </>
         )}
-        <button className="primary-button" onClick={() => navigate("/moods")}>
+        {/* <button className="primary-button" onClick={() => navigate("/moods")}>
           Add Entry
+        </button> */}
+        <button
+          className="third-button bottom-right"
+          onClick={() => navigate("/moods")}
+        >
+          <HiOutlinePencil />
         </button>
       </div>
     </>

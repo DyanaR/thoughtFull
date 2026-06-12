@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { Mood } from "../types";
 import { IoIosArrowBack } from "react-icons/io";
+import { MdNavigateNext } from "react-icons/md";
 
 function MoodSelectionPage() {
   const navigate = useNavigate();
@@ -29,6 +30,8 @@ function MoodSelectionPage() {
       state: {
         moodIds: selectedMoodIds,
         selectedMoods: selectedMoods,
+        userTitle: location.state?.userTitle ?? "",
+        userContent: location.state?.userContent ?? "",
       },
     });
   };
@@ -54,7 +57,6 @@ function MoodSelectionPage() {
             left: 0,
           }}
         />
-        <h3>Create New Journal</h3>
       </div>
       <div style={{ paddingTop: "3rem", paddingBottom: "1rem" }}>
         <h2>What emotions do you feel right now?</h2>
@@ -77,8 +79,17 @@ function MoodSelectionPage() {
         />
       </div>
 
-      <button className="primary-button" onClick={handleNext}>
+      {/* <button className="primary-button" onClick={handleNext}>
         Next
+      </button> */}
+      <button
+        className="third-button outline bottom-right"
+        onClick={handleNext}
+        style={{
+          fontSize: "4rem",
+        }}
+      >
+        <MdNavigateNext />
       </button>
     </div>
   );

@@ -3,6 +3,7 @@ import { deleteEntry } from "../services/entries";
 import { useAuth0 } from "@auth0/auth0-react";
 import type { Entry } from "../types";
 import { MdOutlineDelete } from "react-icons/md";
+import { formatUpdatedAt } from "../utils/dateUtils";
 
 type EntryCardProps = {
   entry: Entry;
@@ -25,38 +26,6 @@ function EntryCard({ entry, onEntryDeleted }: EntryCardProps) {
     await deleteEntry(token, entry.id);
     onEntryDeleted(entry.id);
   };
-
-  function formatUpdatedAt(dateString: string) {
-    const date = new Date(dateString);
-
-    const today = new Date();
-    const yesterday = new Date();
-
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    const isToday = date.toDateString() === today.toDateString();
-    const isYesterday = date.toDateString() === yesterday.toDateString();
-
-    const time = date.toLocaleTimeString([], {
-      hour: "numeric",
-      minute: "2-digit",
-    });
-
-    if (isToday) {
-      return `Today, ${time}`;
-    }
-
-    if (isYesterday) {
-      return `Yesterday, ${time}`;
-    }
-
-    return (
-      date.toLocaleDateString([], {
-        month: "short",
-        day: "numeric",
-      }) + `, ${time}`
-    );
-  }
 
   return (
     <div

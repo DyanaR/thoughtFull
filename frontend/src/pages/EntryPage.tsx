@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { deleteEntry, getEntryById, updateEntry } from "../services/entries";
+import { getEntryById, updateEntry } from "../services/entries";
 import { useAuth0 } from "@auth0/auth0-react";
 import type { Entry } from "../types";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import SelectMoods from "../components/SelectMoods";
 import "../App.css";
-import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowBack, IoIosMic } from "react-icons/io";
 import { MdMood } from "react-icons/md";
-import { MdOutlineDelete } from "react-icons/md";
-import AudioTranscriber from "../components/AudioTranscriber";
+import { formatUpdatedAt } from "../utils/dateUtils";
 
 function EntryPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { id } = useParams();
 
   const { getAccessTokenSilently } = useAuth0();
@@ -23,8 +23,29 @@ function EntryPage() {
 
   const [selectedMoodIds, setSelectedMoodIds] = useState<string[]>([]);
 
-  const [audioStatus, setAudioStatus] = useState("");
-  const [audioError, setAudioError] = useState("");
+  useEffect(() => {
+    const transcript = location.state?.transcript;
+
+    if (!transcript || !entry) return;
+
+    const updatedContent = entry.content
+      ? `${entry.content}\n\n${transcript}`
+      : transcript;
+
+    setEntry({ ...entry, content: updatedContent });
+
+    const saveTranscript = async () => {
+      if (!id) return;
+
+      const token = await getAccessTokenSilently();
+
+      await updateEntry(token, id, {
+        content: updatedContent,
+      });
+    };
+
+    saveTranscript();
+  }, [location.state?.transcript, entry?.id]);
 
   useEffect(() => {
     const fetchEntry = async () => {
@@ -71,51 +92,19 @@ function EntryPage() {
     setEntry(updatedEntry);
   };
 
-  function formatUpdatedAt(dateString: string) {
-    const date = new Date(dateString);
+  // const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   e.stopPropagation();
 
-    const today = new Date();
-    const yesterday = new Date();
+  //   if (!entry.id) return;
 
-    yesterday.setDate(yesterday.getDate() - 1);
+  //   const confirmDelete = window.confirm("Delete this entry?");
+  //   if (!confirmDelete) return;
 
-    const isToday = date.toDateString() === today.toDateString();
-    const isYesterday = date.toDateString() === yesterday.toDateString();
+  //   const token = await getAccessTokenSilently();
+  //   await deleteEntry(token, entry.id);
 
-    const time = date.toLocaleTimeString([], {
-      hour: "numeric",
-      minute: "2-digit",
-    });
-
-    if (isToday) {
-      return `Today, ${time}`;
-    }
-
-    if (isYesterday) {
-      return `Yesterday, ${time}`;
-    }
-
-    return (
-      date.toLocaleDateString([], {
-        month: "short",
-        day: "numeric",
-      }) + `, ${time}`
-    );
-  }
-
-  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-
-    if (!entry.id) return;
-
-    const confirmDelete = window.confirm("Delete this entry?");
-    if (!confirmDelete) return;
-
-    const token = await getAccessTokenSilently();
-    await deleteEntry(token, entry.id);
-
-    navigate("/home");
-  };
+  //   navigate("/home");
+  // };
 
   return (
     <>
@@ -128,10 +117,18 @@ function EntryPage() {
             paddingTop: "1rem",
           }}
         >
-          <IoIosArrowBack className="icons" onClick={() => navigate("/home")} />
-          <h1 className="logo">
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+            <IoIosArrowBack
+              className="icons"
+              onClick={() => navigate("/home")}
+            />
+            <h3 style={{ fontWeight: "600" }}>Edit Journal</h3>
+          </div>
+
+          {/* <h1 className="logo">
             thought<span>Full</span>
-          </h1>
+          </h1> */}
+
           <div className="mood-menu-wrapper">
             <MdMood
               className="icons"
@@ -193,8 +190,7 @@ function EntryPage() {
               ))}
             </div>
           </div>
-          {audioStatus && <p className="small-text">{audioStatus}</p>}
-          {audioError && <p className="form-error show">{audioError}</p>}
+
           <input
             value={entry.title}
             onChange={(e) => setEntry({ ...entry, title: e.target.value })}
@@ -217,27 +213,30 @@ function EntryPage() {
           />
         </div>
         <div className="buttons-group">
-          <button type="button" className="group-button" onClick={handleDelete}>
+          {/* <button type="button" className="group-button" onClick={handleDelete}>
             <MdOutlineDelete className="icons" />
-          </button>
+          </button> */}
 
           <div className="divider" />
-          <AudioTranscriber
-            onTranscriptReady={(transcript) =>
-              setEntry((prev) =>
-                prev
-                  ? {
-                      ...prev,
-                      content: prev.content
-                        ? `${prev.content}\n\n${transcript}`
-                        : transcript,
-                    }
-                  : prev,
-              )
+          <button
+            type="button"
+            className="third-button bottom-right"
+            onClick={() =>
+              navigate("/record-audio", {
+                state: {
+                  entryId: entry.id,
+                  returnTo: "edit-entry",
+                  userTitle: entry.title,
+                  userContent: entry.content,
+                  moodIds: selectedMoodIds,
+                  selectedMoods: entry.moods,
+                  startRecording: true,
+                },
+              })
             }
-            onStatusChange={setAudioStatus}
-            onError={setAudioError}
-          />
+          >
+            <IoIosMic className="icons" />
+          </button>
 
           <div className="divider" />
         </div>

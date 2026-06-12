@@ -7,6 +7,8 @@ import AddEntryPage from "./pages/AddEntryPage";
 import LandingPage from "./pages/LandingPage";
 import NamePage from "./pages/NamePage";
 import AuthRedirectPage from "./pages/AuthRedirectPage";
+import AudioTranscriberPage from "./pages/AudioTranscriberPage";
+// import AudioRecordingPage from "./pages/AudioRecordingPage";
 
 function App() {
   return (
@@ -57,6 +59,14 @@ function App() {
         }
       />
 
+      <Route
+        path="/record-audio"
+        element={
+          <ProtectedRoute>
+            <AudioTranscriberPage />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/add-entry"
         element={
