@@ -127,3 +127,26 @@ p {
   font-family: var(--font-t);
   font-size: 12px;
 }
+
+button {
+  color: inherit;
+  font-family: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+button:focus,
+button:active,
+button:disabled {
+  color: inherit;
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+  color: inherit;
+  text-decoration: none;
+}
