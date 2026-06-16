@@ -93,6 +93,31 @@ export default function AudioTranscriberPage() {
     };
   }, [isRecording]); // only run when recording starts
 
+  const getSupportedMimeType = () => {
+    if (MediaRecorder.isTypeSupported("audio/webm;codecs=opus")) {
+      return "audio/webm;codecs=opus";
+    }
+
+    if (MediaRecorder.isTypeSupported("audio/mp4")) {
+      return "audio/mp4";
+    }
+
+    if (MediaRecorder.isTypeSupported("audio/aac")) {
+      return "audio/aac";
+    }
+
+    return "";
+  };
+
+  const getAudioExtension = (mimeType: string) => {
+    if (mimeType.includes("mp4")) return "mp4";
+    if (mimeType.includes("aac")) return "aac";
+    if (mimeType.includes("mpeg")) return "mp3";
+    if (mimeType.includes("wav")) return "wav";
+    if (mimeType.includes("ogg")) return "ogg";
+    return "webm";
+  };
+
   const startRecording = async () => {
     try {
       setError("");
@@ -104,7 +129,12 @@ export default function AudioTranscriberPage() {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
 
-      const mediaRecorder = new MediaRecorder(stream);
+      const supportedMimeType = getSupportedMimeType();
+
+      const mediaRecorder = supportedMimeType
+        ? new MediaRecorder(stream, { mimeType: supportedMimeType })
+        : new MediaRecorder(stream);
+
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
 
@@ -122,13 +152,24 @@ export default function AudioTranscriberPage() {
             clearTimeout(recordingTimerRef.current);
           }
 
+          const recorderMimeType =
+            mediaRecorderRef.current?.mimeType ||
+            audioChunksRef.current[0]?.type ||
+            "audio/webm";
+
           const audioBlob = new Blob(audioChunksRef.current, {
-            type: "audio/webm",
+            type: recorderMimeType,
           });
 
-          const audioFile = new File([audioBlob], "journal-audio.webm", {
-            type: "audio/webm",
-          });
+          const extension = getAudioExtension(recorderMimeType);
+
+          const audioFile = new File(
+            [audioBlob],
+            `journal-audio.${extension}`,
+            {
+              type: recorderMimeType,
+            },
+          );
 
           const token = await getAccessTokenSilently();
           const result = await transcribeAudio(token, audioFile);

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { createEntry } from "../services/entries";
 import { useLocation } from "react-router-dom";
@@ -22,6 +22,8 @@ function AddEntryPage() {
 
   const currentDateTime = new Date();
   const transcript = location.state?.transcript ?? "";
+
+  const transcriptHandledRef = useRef(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -69,11 +71,12 @@ function AddEntryPage() {
   }, []);
 
   useEffect(() => {
-    if (transcript) {
-      setUserContent((prev) =>
-        prev ? `${prev}\n\n${transcript}` : transcript,
-      );
-    }
+    if (!transcript) return;
+    if (transcriptHandledRef.current) return;
+
+    transcriptHandledRef.current = true;
+
+    setUserContent((prev) => (prev ? `${prev}\n\n${transcript}` : transcript));
   }, [transcript]);
 
   function formatDateTime(dateString: string) {
