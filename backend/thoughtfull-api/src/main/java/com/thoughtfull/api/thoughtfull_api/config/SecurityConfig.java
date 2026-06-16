@@ -38,7 +38,8 @@ public class SecurityConfig {
 
         config.setAllowedOrigins(List.of(
                 "http://localhost:5173",
-                "https://thought-full.vercel.app"
+                "https://thought-full.vercel.app",
+                "https://getthoughtfull.app"
         ));
 
         config.setAllowedMethods(List.of(
