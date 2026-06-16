@@ -313,7 +313,7 @@ export default function AudioTranscriberPage() {
           ) : isPaused ? (
             <p className="messages-text">Recording paused</p>
           ) : isRecording ? (
-            <p className="messages-text">Recording 2</p>
+            <p className="messages-text">Recording</p>
           ) : (
             <p className="messages-text">Starting recording...</p>
           )}
