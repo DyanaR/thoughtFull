@@ -161,6 +161,12 @@ export default function AudioTranscriberPage() {
             type: recorderMimeType,
           });
 
+          if (audioChunksRef.current.length === 0 || audioBlob.size === 0) {
+            setError("No audio was captured. Please try recording again.");
+            setIsTranscribing(false);
+            return;
+          }
+
           const extension = getAudioExtension(recorderMimeType);
 
           const audioFile = new File(
@@ -192,7 +198,8 @@ export default function AudioTranscriberPage() {
           );
         } catch (err) {
           console.error(err);
-          setError("Could not transcribe audio. Please try again.");
+          const message = err instanceof Error ? err.message : "Unknown error";
+          setError(message);
           setStatus("");
         } finally {
           setIsTranscribing(false);
@@ -200,7 +207,7 @@ export default function AudioTranscriberPage() {
         }
       };
 
-      mediaRecorder.start();
+      mediaRecorder.start(1000); // makes recorder emit audio chunks every 1 sec
       setIsRecording(true);
 
       recordingTimerRef.current = window.setTimeout(() => {
@@ -306,7 +313,7 @@ export default function AudioTranscriberPage() {
           ) : isPaused ? (
             <p className="messages-text">Recording paused</p>
           ) : isRecording ? (
-            <p className="messages-text">Recording</p>
+            <p className="messages-text">Recording 2</p>
           ) : (
             <p className="messages-text">Starting recording...</p>
           )}

@@ -13,7 +13,8 @@ export async function transcribeAudio(token: string, file: File) {
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to transcribe audio. Status: ${response.status}`);
+    const message = await response.text();
+    throw new Error(`Status ${response.status}: ${message}`);
   }
 
   return response.json();
