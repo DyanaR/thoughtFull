@@ -58,3 +58,8 @@ output "cloudfront_domain_name" {
   description = "CloudFront domain name for frontend"
   value       = aws_cloudfront_distribution.frontend.domain_name
 }
+
+output "cloudfront_distribution_id" {
+  description = "CloudFront Distribtution id"
+  value       = aws_cloudfront_distribution.frontend.id
+}
