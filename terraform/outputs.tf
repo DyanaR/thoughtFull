@@ -39,6 +39,11 @@ output "backend_public_ip" {
   value       = aws_instance.backend.public_ip
 }
 
+output "backend_elastic_ip" {
+  description = "Elastic IP address of backend EC2"
+  value       = aws_eip.backend.public_ip
+}
+
 output "rds_endpoint" {
   description = "RDS PostgreSQL endpoint"
   value       = aws_db_instance.postgres.endpoint

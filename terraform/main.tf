@@ -185,6 +185,16 @@ resource "aws_instance" "backend" {
   }
 }
 
+# EC2 - Elastic IP
+resource "aws_eip" "backend" {
+  instance = aws_instance.backend.id
+  domain   = "vpc"
+
+  tags = {
+    Name = "${var.project_name}-backend-eip"
+  }
+}
+
 # EC2 - GitHub Actions Key Pair
 resource "aws_key_pair" "github_actions" {
   key_name   = "${var.project_name}-github-actions-key"
@@ -194,7 +204,6 @@ resource "aws_key_pair" "github_actions" {
     Name = "${var.project_name}-github-actions-key"
   }
 }
-
 
 # RDS 
 resource "aws_db_subnet_group" "main" {
