@@ -17,7 +17,8 @@ public class CorsConfig {
                         .allowedOrigins(
                                 "http://localhost:5173",
                                 "https://thought-full.vercel.app",
-                                "https://getthoughtfull.app"
+                                "https://getthoughtfull.app",
+                                "https://d1rtts6agdhw1o.cloudfront.net"
                         )
                         .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
