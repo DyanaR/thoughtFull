@@ -1,1 +1,10 @@
 /notes.md
+
+# Terraform secrets
+terraform/terraform.tfvars
+
+# Terraform state files
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
