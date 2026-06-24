@@ -23,6 +23,7 @@ jobs:
             --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
             --document-name "AWS-RunShellScript" \
             --comment "Deploy thoughtFull backend" \
+            --timeout-seconds 900 \
             --parameters 'commands=[
               "cd /home/ec2-user/thoughtFull/backend/thoughtfull-api",
               "git pull",
