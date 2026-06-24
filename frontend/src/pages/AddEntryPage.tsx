@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import { IoIosArrowBack, IoIosMic } from "react-icons/io";
 import type { Mood } from "../types";
 import { FaCheck } from "react-icons/fa6";
-import { IoMdClose } from "react-icons/io";
+import { LuTrash } from "react-icons/lu";
 
 function AddEntryPage() {
   const location = useLocation();
@@ -184,7 +184,7 @@ function AddEntryPage() {
               className="third-button outline"
               onClick={() => navigate("/home")}
             >
-              <IoMdClose className="icons" />
+              <LuTrash className="icons" />
             </button>
 
             {/* <button
