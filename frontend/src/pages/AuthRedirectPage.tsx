@@ -19,7 +19,8 @@ function AuthRedirectPage() {
     const checkUser = async () => {
       try {
         if (!isAuthenticated) {
-          await loginWithRedirect();
+          navigate("/", { replace: true });
+          //await loginWithRedirect();
           return;
         }
 

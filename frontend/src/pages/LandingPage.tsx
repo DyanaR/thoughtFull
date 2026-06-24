@@ -12,10 +12,13 @@ function LandingPage() {
     }
   }, [isLoading, isAuthenticated, navigate]);
 
-  const handleAuthClick = () => {
+  const handleAuthClick = (screenHint?: "signup" | "login") => {
     loginWithRedirect({
       appState: {
         returnTo: "/auth-redirect",
+      },
+      authorizationParams: {
+        screen_hint: screenHint,
       },
     });
   };
@@ -36,13 +39,19 @@ function LandingPage() {
         Capture your thoughts and moods from every part of life
       </p>
 
-      <button className="secondary-button" onClick={handleAuthClick}>
+      <button
+        className="secondary-button"
+        onClick={() => handleAuthClick("signup")}
+      >
         Get Started
       </button>
 
       <p className="small-text">
-        Already User?{" "}
-        <span onClick={handleAuthClick} style={{ cursor: "pointer" }}>
+        Already a user?{" "}
+        <span
+          onClick={() => handleAuthClick("login")}
+          style={{ cursor: "pointer" }}
+        >
           <u>Log in.</u>
         </span>
       </p>
