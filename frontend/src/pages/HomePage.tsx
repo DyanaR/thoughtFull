@@ -20,19 +20,26 @@ function HomePage() {
 
   const [backendUser, setBackendUser] = useState<User | null>(null);
   const [userEntries, setUserEntries] = useState<Entry[]>([]);
+  const [isLoadingEntries, setIsLoadingEntries] = useState(true);
   // const [selectedEntry, setSelectedEntry] = useState<any>(null);
 
   const currentDate = new Date();
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = await getAccessTokenSilently();
+      try {
+        setIsLoadingEntries(true);
 
-      const user = await getCurrentUser(token);
-      setBackendUser(user);
+        const token = await getAccessTokenSilently();
 
-      const entries = await getCurrentEntries(token);
-      setUserEntries(entries);
+        const user = await getCurrentUser(token);
+        setBackendUser(user);
+
+        const entries = await getCurrentEntries(token);
+        setUserEntries(entries);
+      } finally {
+        setIsLoadingEntries(false);
+      }
     };
 
     fetchUser();
@@ -98,14 +105,23 @@ function HomePage() {
           <>
             <h3 style={{ paddingBottom: "1rem" }}>Recent Journal Entries</h3>
             <div className="entries-scroll-area">
-              <EntryList
-                entries={userEntries}
-                onEntryDeleted={(deletedId) =>
-                  setUserEntries((prev) =>
-                    prev.filter((entry) => entry.id !== deletedId),
-                  )
-                }
-              />
+              {isLoadingEntries ? (
+                <div className="no-entries-message">Loading entries...</div>
+              ) : userEntries.length === 0 ? (
+                <div className="no-entries-message">
+                  No journal entries yet. Start by writing a thought or
+                  recording a reflection.
+                </div>
+              ) : (
+                <EntryList
+                  entries={userEntries}
+                  onEntryDeleted={(deletedId) =>
+                    setUserEntries((prev) =>
+                      prev.filter((entry) => entry.id !== deletedId),
+                    )
+                  }
+                />
+              )}
             </div>
           </>
         )}

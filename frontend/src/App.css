@@ -88,6 +88,20 @@
   font-weight: 300;
 }
 
+.no-entries-message {
+  font-family: var(--font-t);
+  color: var(--text-s);
+  margin-top: 2rem;
+  padding: 2rem 1.5rem;
+  border: 1px dashed #d6cfc4;
+  border-radius: 16px;
+  background-color: #faf7f2;
+  color: #6f665c;
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: center;
+}
+
 /* Mood Pills */
 .mood-pill {
   font-family: var(--font-t);
